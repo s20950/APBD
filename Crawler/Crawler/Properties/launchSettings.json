@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Crawler": {
+      "commandName": "Project",
+      "commandLineArgs": "https://github.com/khast3x/h8mail"
+    }
+  }
+}

@@ -6,9 +6,10 @@ namespace Crawler // Note: actual namespace depends on the project name.
     public class Program
     {
         // ThisIsMethodName 
-        public static async Task Main(string url)
+        public static async Task Main(string[] args)
         {
-            if (url == null) throw new ArgumentNullException("You need to provide a valid URL");
+            if (args.Length == 0) throw new ArgumentNullException("You need to provide a valid URL");
+            string url = args[0];
             if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
             {
                 throw new ArgumentNullException(url + " is an invalid URL");
