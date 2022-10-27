@@ -8,17 +8,17 @@ namespace Crawler // Note: actual namespace depends on the project name.
         // ThisIsMethodName 
         public static async Task Main(string[] args)
         {
-            if (args.Length == 0) throw new ArgumentNullException("You need to provide a valid URL");
+            if (args.Length == 0) throw new ArgumentNullException("Musisz podać poprawny adres URL");
             string url = args[0];
             if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
             {
-                throw new ArgumentNullException(url + " is an invalid URL");
+                throw new ArgumentException(url + " Nie jest poprawnym adresem URL");
             }
 
-            Console.WriteLine("Connecting to: " + url);
-            using HttpClient client = new HttpClient();
+            Console.WriteLine("Trwa łączenie z: " + url);
             try
             {
+                using HttpClient client = new HttpClient();
                 using HttpResponseMessage response = await client.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
@@ -32,7 +32,7 @@ namespace Crawler // Note: actual namespace depends on the project name.
 
                     if (matches.Count > 0)
                     {
-                        Console.WriteLine("Following email adresses were found:");
+                        Console.WriteLine("Następujące adresy email zostały znalezione:");
                         foreach (var match in matches)
                         {
                             Console.WriteLine(match);
@@ -40,14 +40,17 @@ namespace Crawler // Note: actual namespace depends on the project name.
                     }
                     else
                     {
-                        Console.WriteLine("No emails found");
+                        Console.WriteLine("Nie znaleziono adresów email");
                     }
                 }
+                client.Dispose();
+                response.Dispose();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Wystąpił błąd podczas łączenia z podanym adresem");
+                Console.WriteLine("Błąd w czasie pobierania strony");
             }
+            
         }
     }
 }
