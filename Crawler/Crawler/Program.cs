@@ -14,12 +14,11 @@ namespace Crawler // Note: actual namespace depends on the project name.
             {
                 throw new ArgumentException(url + " Nie jest poprawnym adresem URL");
             }
-
+            using HttpClient client = new HttpClient();
+            using HttpResponseMessage response = await client.GetAsync(url);
             Console.WriteLine("Trwa łączenie z: " + url);
             try
             {
-                using HttpClient client = new HttpClient();
-                using HttpResponseMessage response = await client.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
                     string context = await response.Content.ReadAsStringAsync();
@@ -43,12 +42,15 @@ namespace Crawler // Note: actual namespace depends on the project name.
                         Console.WriteLine("Nie znaleziono adresów email");
                     }
                 }
-                client.Dispose();
-                response.Dispose();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Błąd w czasie pobierania strony");
+            }
+            finally
+            {
+                client.Dispose();
+                response.Dispose();
             }
             
         }
